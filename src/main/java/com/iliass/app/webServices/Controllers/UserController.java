@@ -30,7 +30,7 @@ public class UserController {
 	}
 	
 	
-	// derealization (@RequestBody) 
+	// diserialization (@RequestBody) 
 	@PostMapping
 	public UserResponse CreatUser(@RequestBody UserRequest userRequest  ) {
 		//couche 1 (layer)
