@@ -18,5 +18,11 @@ public class Application {
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	//entry point we should declare out context
+	
+	@Bean 
+	public SpringApplicationContext springApplicationContext () {
+		return new SpringApplicationContext();
+	}
 
 }

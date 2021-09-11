@@ -1,8 +1,18 @@
 package com.iliass.app.webServices.Services;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import com.iliass.app.webServices.shared.dto.UserDto;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
 	UserDto CreateUser(UserDto userDto) ;
+
+	UserDto getUser(String email);
+	
+	UserDto getUserByUserId(String userId);
+
+	UserDto UpdateUser(String id, UserDto userDto);
+
+	void DeleteUser(String id);
 }
