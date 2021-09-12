@@ -1,5 +1,9 @@
 package com.iliass.app.webServices.Controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.engine.query.spi.ReturnMetadata;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iliass.app.webServices.Exceptions.UserException;
@@ -25,6 +30,7 @@ import com.iliass.app.webServices.shared.dto.UserDto;
 @RequestMapping("/users") // localhost:8080/users
 public class UserController {
 
+	//Response Entity for server status 
 	@Autowired
 	UserService userService;
 
@@ -39,28 +45,34 @@ public class UserController {
 		BeanUtils.copyProperties(userDto, userResponse);
 		return  new ResponseEntity<UserResponse>(userResponse,HttpStatus.OK);
 	}
-
-	// diserialization (@RequestBody)
-	//consomer media type => add consumes,  
+	
+	@GetMapping(produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+	public List<UserResponse> getAllUsers (@RequestParam(value = "page") int page ,@RequestParam(value = "limit")  int limit) {
+		
+		List<UserResponse> userResponses = new ArrayList<>();
+		List<UserDto> users =userService.getUsers(page , limit);
+		
+		for (UserDto userDto : users) {
+			UserResponse user = new UserResponse();
+			BeanUtils.copyProperties(userDto, user);
+			userResponses.add(user);
+		}
+		
+		return userResponses;
+	}
+ 
 	@PostMapping(
 			consumes = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE},
 			produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}
 			)
 	public ResponseEntity<UserResponse> CreatUser(@RequestBody UserRequest userRequest) throws Exception {
-		// couche 1 (layer)
-		// instanciate userDto object and binding
 		if(userRequest.getFirstName().isEmpty()) {
 			throw new UserException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 		}
 		
 		UserDto userDto = new UserDto();
 		BeanUtils.copyProperties(userRequest, userDto);
-
-		// couche 2 (layer)
 		UserDto createUser = userService.CreateUser(userDto);
-
-		// crete Response :
-
 		UserResponse userResponse = new UserResponse();
 		BeanUtils.copyProperties(createUser, userResponse);
 

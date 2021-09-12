@@ -1,9 +1,7 @@
 package com.iliass.app.webServices.Services.implt;
 
-import java.awt.print.Printable;
 import java.util.ArrayList;
-
-import javax.persistence.Entity;
+import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,14 +10,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.iliass.app.webServices.Repositories.UserRepository;
+import com.iliass.app.webServices.Responses.UserResponse;
 import com.iliass.app.webServices.Services.UserService;
 import com.iliass.app.webServices.entities.UserEntity;
 import com.iliass.app.webServices.shared.Utils;
 import com.iliass.app.webServices.shared.dto.UserDto;
-
-import net.bytebuddy.asm.Advice.Return;
 
 @Service
 public class UserServiceImplt implements UserService {
@@ -84,7 +84,8 @@ public class UserServiceImplt implements UserService {
 	public UserDto getUserByUserId(String userId) {
 
 		UserEntity userEntity = userRepository.findByUserId(userId);
-		if (userEntity == null) throw new UsernameNotFoundException(userId);
+		if (userEntity == null)
+			throw new UsernameNotFoundException(userId);
 		UserDto userDto = new UserDto();
 
 		BeanUtils.copyProperties(userEntity, userDto);
@@ -93,26 +94,49 @@ public class UserServiceImplt implements UserService {
 
 	@Override
 	public UserDto UpdateUser(String id, UserDto userDto) {
-		
+
 		UserEntity userEntity = userRepository.findByUserId(id);
-		if (userEntity == null) throw new UsernameNotFoundException(id);
-		
+		if (userEntity == null)
+			throw new UsernameNotFoundException(id);
+
 		userEntity.setFirstName(userDto.getFirstName());
 		userEntity.setLastName(userDto.getLastName());
-		
-		UserEntity userUpdtaed =userRepository.save(userEntity);
+
+		UserEntity userUpdtaed = userRepository.save(userEntity);
 
 		UserDto userDto1 = new UserDto();
 
-		BeanUtils.copyProperties(userUpdtaed,userDto1);
+		BeanUtils.copyProperties(userUpdtaed, userDto1);
 		return userDto1;
 	}
 
 	@Override
 	public void DeleteUser(String id) {
 		UserEntity userEntity = userRepository.findByUserId(id);
-		if (userEntity == null) throw new UsernameNotFoundException(id);
+		if (userEntity == null)
+			throw new UsernameNotFoundException(id);
 		userRepository.delete(userEntity);
+	}
+
+	@Override
+	public List<UserDto> getUsers(int page, int limit) {
+		
+		List <UserDto> usersDto = new ArrayList<>();
+
+		Pageable pageableRequest = PageRequest.of(page, limit);
+		
+		Page<UserEntity> userPage = userRepository.findAll(pageableRequest);
+		
+		//list dans la page on doit prendre le contenu
+		List<UserEntity> users = userPage.getContent();
+		
+		for (UserEntity userEntity : users) {
+			UserDto user = new UserDto();
+			BeanUtils.copyProperties(userEntity, user);
+			usersDto.add(user);
+		}
+		
+		return usersDto ;
 	}
 
 }
