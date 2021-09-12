@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.iliass.app.webServices.Exceptions.UserException;
 import com.iliass.app.webServices.Requests.UserRequest;
+import com.iliass.app.webServices.Responses.ErrorMessages;
 import com.iliass.app.webServices.Responses.UserResponse;
 import com.iliass.app.webServices.Services.UserService;
 import com.iliass.app.webServices.shared.dto.UserDto;
@@ -27,7 +29,10 @@ public class UserController {
 	UserService userService;
 
 	//   produces = MediaType.APPLICATION_XML_VALUE => for defing type of manipulating data
-	@GetMapping(path = "/{id}" , produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
+	@GetMapping(
+			path = "/{id}" ,
+			produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}
+			)
 	public ResponseEntity<UserResponse> getUser(@PathVariable String id) {
 		UserDto userDto = userService.getUserByUserId(id);
 		UserResponse userResponse = new UserResponse();
@@ -39,10 +44,15 @@ public class UserController {
 	//consomer media type => add consumes,  
 	@PostMapping(
 			consumes = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE},
-			produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<UserResponse> CreatUser(@RequestBody UserRequest userRequest) {
+			produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}
+			)
+	public ResponseEntity<UserResponse> CreatUser(@RequestBody UserRequest userRequest) throws Exception {
 		// couche 1 (layer)
 		// instanciate userDto object and binding
+		if(userRequest.getFirstName().isEmpty()) {
+			throw new UserException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+		}
+		
 		UserDto userDto = new UserDto();
 		BeanUtils.copyProperties(userRequest, userDto);
 
