@@ -27,7 +27,7 @@ public class UserController {
 	UserService userService;
 
 	//   produces = MediaType.APPLICATION_XML_VALUE => for defing type of manipulating data
-	@GetMapping(path = "/{id}" , produces = MediaType.APPLICATION_XML_VALUE)
+	@GetMapping(path = "/{id}" , produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<UserResponse> getUser(@PathVariable String id) {
 		UserDto userDto = userService.getUserByUserId(id);
 		UserResponse userResponse = new UserResponse();
@@ -36,7 +36,10 @@ public class UserController {
 	}
 
 	// diserialization (@RequestBody)
-	@PostMapping
+	//consomer media type => add consumes,  
+	@PostMapping(
+			consumes = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE},
+			produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<UserResponse> CreatUser(@RequestBody UserRequest userRequest) {
 		// couche 1 (layer)
 		// instanciate userDto object and binding
