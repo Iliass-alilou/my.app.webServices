@@ -120,7 +120,8 @@ public class UserServiceImplt implements UserService {
 
 	@Override
 	public List<UserDto> getUsers(int page, int limit) {
-		
+		//l'indice commence de 0
+		if (page > 0) page -= 1 ;
 		List <UserDto> usersDto = new ArrayList<>();
 
 		Pageable pageableRequest = PageRequest.of(page, limit);

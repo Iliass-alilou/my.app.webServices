@@ -3,7 +3,9 @@ package com.iliass.app.webServices.Controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.engine.query.spi.ReturnMetadata;
+import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,7 +49,9 @@ public class UserController {
 	}
 	
 	@GetMapping(produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
-	public List<UserResponse> getAllUsers (@RequestParam(value = "page") int page ,@RequestParam(value = "limit")  int limit) {
+	public List<UserResponse> getAllUsers (
+			@RequestParam(value = "page" , defaultValue = "1") int page ,
+			@RequestParam(value = "limit", defaultValue = "15")  int limit) {
 		
 		List<UserResponse> userResponses = new ArrayList<>();
 		List<UserDto> users =userService.getUsers(page , limit);
@@ -65,18 +69,24 @@ public class UserController {
 			consumes = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE},
 			produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}
 			)
-	public ResponseEntity<UserResponse> CreatUser(@RequestBody UserRequest userRequest) throws Exception {
-		if(userRequest.getFirstName().isEmpty()) {
-			throw new UserException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
-		}
+	public ResponseEntity<UserResponse> CreatUser(@Valid @RequestBody UserRequest userRequest) 
+			throws Exception {
+				if(userRequest.getFirstName().isEmpty()) {
+					throw new UserException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
+				}
+				
+				//UserDto userDto = new UserDto();
+				//BeanUtils.copyProperties(userRequest, userDto);
+				ModelMapper modelMapper = new ModelMapper();
+				UserDto userDto = modelMapper.map(userRequest, UserDto.class);
+				
+				UserDto createUser = userService.CreateUser(userDto);
+				
+				UserResponse userResponse = new UserResponse();
+				
+				BeanUtils.copyProperties(createUser, userResponse);
 		
-		UserDto userDto = new UserDto();
-		BeanUtils.copyProperties(userRequest, userDto);
-		UserDto createUser = userService.CreateUser(userDto);
-		UserResponse userResponse = new UserResponse();
-		BeanUtils.copyProperties(createUser, userResponse);
-
-		return   new ResponseEntity<UserResponse>(userResponse,HttpStatus.CREATED);
+				return   new ResponseEntity<UserResponse>(userResponse,HttpStatus.CREATED);
 	}
 
 	@PutMapping(path = "/{id}")

@@ -1,11 +1,14 @@
 package com.iliass.app.webServices.Requests;
 
+import java.util.List;
+
 public class UserRequest {
 
 	private String firstName;
 	private String lastName;
 	private String email;
 	private String password;
+	private List <AdresseRequest> adresses ;
 	
 	
 	public String getFirstName() {
@@ -31,6 +34,12 @@ public class UserRequest {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public List<AdresseRequest> getAdresses() {
+		return adresses;
+	}
+	public void setAdresses(List<AdresseRequest> adresses) {
+		this.adresses = adresses;
 	}
 	
 	

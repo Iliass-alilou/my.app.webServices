@@ -1,6 +1,7 @@
 package com.iliass.app.webServices.shared.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class UserDto implements Serializable {
 	
@@ -20,6 +21,7 @@ public class UserDto implements Serializable {
 	private String ecryptyPassword;
 	private String emailVerificationToken;
 	private Boolean emailVerificationStatus = false ;
+	private List<AdresseDto> adresses ;
 	
 	
 	public long getId() {
@@ -75,6 +77,12 @@ public class UserDto implements Serializable {
 	}
 	public void setEmailVerificationStatus(Boolean emailVerificationStatus) {
 		this.emailVerificationStatus = emailVerificationStatus;
+	}
+	public List<AdresseDto> getAdresses() {
+		return adresses;
+	}
+	public void setAdresses(List<AdresseDto> adresses) {
+		this.adresses = adresses;
 	}
 	
 	

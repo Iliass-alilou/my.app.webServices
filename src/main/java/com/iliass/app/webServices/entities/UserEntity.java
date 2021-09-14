@@ -1,11 +1,16 @@
 package com.iliass.app.webServices.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+
 
 
 
@@ -31,6 +36,7 @@ public class UserEntity implements Serializable {
 	private String lastName;
 	
 	@Column(unique = true,  nullable = false ,length = 120)
+	
 	private String email;
 	
 	@Column(nullable = false )
@@ -41,6 +47,9 @@ public class UserEntity implements Serializable {
 	
 	@Column(nullable = false)
 	private Boolean emailVerificationStatus = false;
+	
+	@OneToMany(mappedBy = "user" ,cascade = CascadeType.ALL)
+	private List<AdressesEntity> adressesEntity ;
 
 	
 	public long getId() {
@@ -105,6 +114,14 @@ public class UserEntity implements Serializable {
 
 	public void setEmailVerificationStatus(Boolean emailVerificationStatus) {
 		this.emailVerificationStatus = emailVerificationStatus;
+	}
+
+	public List<AdressesEntity> getAdressesEntity() {
+		return adressesEntity;
+	}
+
+	public void setAdressesEntity(List<AdressesEntity> adressesEntity) {
+		this.adressesEntity = adressesEntity;
 	}
 	
 	
