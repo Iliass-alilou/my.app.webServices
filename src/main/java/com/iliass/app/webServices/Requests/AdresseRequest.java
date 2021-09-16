@@ -7,6 +7,8 @@ public class AdresseRequest {
 	private String street;
 	private String postal;
 	private String type;
+	
+	
 	public String getCity() {
 		return city;
 	}

@@ -3,6 +3,7 @@ package com.iliass.app.webServices.Services.implt;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -15,10 +16,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.iliass.app.webServices.Repositories.UserRepository;
-import com.iliass.app.webServices.Responses.UserResponse;
 import com.iliass.app.webServices.Services.UserService;
 import com.iliass.app.webServices.entities.UserEntity;
 import com.iliass.app.webServices.shared.Utils;
+import com.iliass.app.webServices.shared.dto.AdresseDto;
 import com.iliass.app.webServices.shared.dto.UserDto;
 
 @Service
@@ -37,20 +38,30 @@ public class UserServiceImplt implements UserService {
 	public UserDto CreateUser(UserDto userDto) {
 		// check exiting user
 		UserEntity checkExisting_User = userRepository.findByEmail(userDto.getEmail());
+		
 		if (checkExisting_User != null)
 			throw new RuntimeException("user already exist !");
 
-		UserEntity userEntity = new UserEntity();
-		BeanUtils.copyProperties(userDto, userEntity);
+		for (int i = 0; i < userDto.getAdresses().size(); i++) {
+
+			AdresseDto address = userDto.getAdresses().get(i);
+			address.setUserDto(userDto);
+			address.setAdesseId(util.generatedValue(30));
+			userDto.getAdresses().set(i, address);
+		}
+		
+		userDto.getContact().setUser(userDto);
+		userDto.getContact().setContactId(util.generatedValue(30));
+
+		ModelMapper modelMapper = new ModelMapper();
+		UserEntity userEntity = modelMapper.map(userDto, UserEntity.class);
 
 		userEntity.setEcryptyPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
 		userEntity.setUserId(util.generatedValue(32));
 
 		UserEntity newUser = userRepository.save(userEntity);
 
-		UserDto userDto1 = new UserDto();
-
-		BeanUtils.copyProperties(newUser, userDto1);
+		UserDto userDto1 = modelMapper.map(newUser, UserDto.class);
 		return userDto1;
 
 	}
@@ -120,24 +131,25 @@ public class UserServiceImplt implements UserService {
 
 	@Override
 	public List<UserDto> getUsers(int page, int limit) {
-		//l'indice commence de 0
-		if (page > 0) page -= 1 ;
-		List <UserDto> usersDto = new ArrayList<>();
+		// l'indice commence de 0
+		if (page > 0)
+			page -= 1;
+		List<UserDto> usersDto = new ArrayList<>();
 
 		Pageable pageableRequest = PageRequest.of(page, limit);
-		
+
 		Page<UserEntity> userPage = userRepository.findAll(pageableRequest);
-		
-		//list dans la page on doit prendre le contenu
+
+		// list dans la page on doit prendre le contenu
 		List<UserEntity> users = userPage.getContent();
-		
+
 		for (UserEntity userEntity : users) {
 			UserDto user = new UserDto();
 			BeanUtils.copyProperties(userEntity, user);
 			usersDto.add(user);
 		}
-		
-		return usersDto ;
+
+		return usersDto;
 	}
 
 }

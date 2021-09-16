@@ -1,14 +1,19 @@
 package com.iliass.app.webServices.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 
 
@@ -17,9 +22,6 @@ import javax.persistence.OneToMany;
 @Entity(name = "users")
 public class UserEntity implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1090318847312676765L;
 	
 	@Id
@@ -48,9 +50,14 @@ public class UserEntity implements Serializable {
 	@Column(nullable = false)
 	private Boolean emailVerificationStatus = false;
 	
-	@OneToMany(mappedBy = "user" ,cascade = CascadeType.ALL)
-	private List<AdressesEntity> adressesEntity ;
-
+	@OneToMany(mappedBy = "userEtity" ,cascade = CascadeType.ALL)
+	private List<AdressesEntity> adresses ;
+	
+	@OneToOne(mappedBy="user", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	private ContactEntity contact ;
+	
+	@ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.ALL , mappedBy = "users")
+	private  Set<GroupEntity> groups  = new HashSet<>() ;
 	
 	public long getId() {
 		return id;
@@ -116,15 +123,23 @@ public class UserEntity implements Serializable {
 		this.emailVerificationStatus = emailVerificationStatus;
 	}
 
-	public List<AdressesEntity> getAdressesEntity() {
-		return adressesEntity;
+	public List<AdressesEntity> getAdresses() {
+		return adresses;
 	}
 
-	public void setAdressesEntity(List<AdressesEntity> adressesEntity) {
-		this.adressesEntity = adressesEntity;
+	public void setAdresses(List<AdressesEntity> adresses) {
+		this.adresses = adresses;
 	}
+
+	public ContactEntity getContact() {
+		return contact;
+	}
+
+	public void setContact(ContactEntity contact) {
+		this.contact = contact;
+	}
+
 	
-	
-	
+
 	
 }

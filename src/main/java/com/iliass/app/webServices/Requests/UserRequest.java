@@ -9,6 +9,7 @@ public class UserRequest {
 	private String email;
 	private String password;
 	private List <AdresseRequest> adresses ;
+	private ContactRequest contact;
 	
 	
 	public String getFirstName() {
@@ -40,6 +41,12 @@ public class UserRequest {
 	}
 	public void setAdresses(List<AdresseRequest> adresses) {
 		this.adresses = adresses;
+	}
+	public ContactRequest getContact() {
+		return contact;
+	}
+	public void setContact(ContactRequest contact) {
+		this.contact = contact;
 	}
 	
 	

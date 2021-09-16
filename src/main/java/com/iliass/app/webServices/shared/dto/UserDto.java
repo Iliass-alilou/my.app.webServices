@@ -22,8 +22,15 @@ public class UserDto implements Serializable {
 	private String emailVerificationToken;
 	private Boolean emailVerificationStatus = false ;
 	private List<AdresseDto> adresses ;
+	private ContactDto contact;
 	
 	
+	public ContactDto getContact() {
+		return contact;
+	}
+	public void setContact(ContactDto contact) {
+		this.contact = contact;
+	}
 	public long getId() {
 		return id;
 	}

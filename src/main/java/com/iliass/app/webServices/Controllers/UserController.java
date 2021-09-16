@@ -3,7 +3,6 @@ package com.iliass.app.webServices.Controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -69,7 +68,7 @@ public class UserController {
 			consumes = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE},
 			produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE}
 			)
-	public ResponseEntity<UserResponse> CreatUser(@Valid @RequestBody UserRequest userRequest) 
+	public ResponseEntity<UserResponse> CreatUser(@RequestBody UserRequest userRequest) 
 			throws Exception {
 				if(userRequest.getFirstName().isEmpty()) {
 					throw new UserException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
@@ -82,9 +81,7 @@ public class UserController {
 				
 				UserDto createUser = userService.CreateUser(userDto);
 				
-				UserResponse userResponse = new UserResponse();
-				
-				BeanUtils.copyProperties(createUser, userResponse);
+				UserResponse userResponse = modelMapper.map(createUser, UserResponse.class);
 		
 				return   new ResponseEntity<UserResponse>(userResponse,HttpStatus.CREATED);
 	}

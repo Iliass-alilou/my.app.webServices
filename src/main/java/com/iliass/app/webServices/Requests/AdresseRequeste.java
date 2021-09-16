@@ -1,24 +1,13 @@
-package com.iliass.app.webServices.shared.dto;
+package com.iliass.app.webServices.Requests;
 
-public class AdresseDto {
+public class AdresseRequeste {
 
-	private long id ;
 	private String adesseId;
 	private String city;
 	private String country;
 	private String street;
 	private String postal;
 	private String type;
-	private UserDto userDto;
-	
-
-	
-	public long getId() {
-		return id;
-	}
-	public void setId(long id) {
-		this.id = id;
-	}
 	public String getAdesseId() {
 		return adesseId;
 	}
@@ -55,12 +44,7 @@ public class AdresseDto {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public UserDto getUserDto() {
-		return userDto;
-	}
-	public void setUserDto(UserDto userDto) {
-		this.userDto = userDto;
-	}
+	
 	
 	
 }

@@ -41,7 +41,7 @@ public class AdressesEntity implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn(name = "users_id")
-	private UserEntity user;
+	private UserEntity userEtity;
 
 	public long getId() {
 		return id;
@@ -99,13 +99,15 @@ public class AdressesEntity implements Serializable {
 		this.type = type;
 	}
 
-	public UserEntity getUserDto() {
-		return user;
+	public UserEntity getUserEtity() {
+		return userEtity;
 	}
 
-	public void setUserDto(UserEntity user) {
-		this.user = user;
+	public void setUserEtity(UserEntity userEtity) {
+		this.userEtity = userEtity;
 	}
+
+
 	
 	
 }
