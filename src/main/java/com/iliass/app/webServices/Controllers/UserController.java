@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ import com.iliass.app.webServices.Responses.UserResponse;
 import com.iliass.app.webServices.Services.UserService;
 import com.iliass.app.webServices.shared.dto.UserDto;
 
+//@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/users") // localhost:8080/users
 public class UserController {
@@ -46,18 +48,26 @@ public class UserController {
 		BeanUtils.copyProperties(userDto, userResponse);
 		return  new ResponseEntity<UserResponse>(userResponse,HttpStatus.OK);
 	}
-	
+//	@CrossOrigin(origins = "*")
+	@CrossOrigin(origins = {"http://localhost:3000" , "http://localhost:4200"})
 	@GetMapping(produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
 	public List<UserResponse> getAllUsers (
 			@RequestParam(value = "page" , defaultValue = "1") int page ,
-			@RequestParam(value = "limit", defaultValue = "15")  int limit) {
+			@RequestParam(value = "limit", defaultValue = "15")  int limit,
+			@RequestParam(value = "search", defaultValue = "")  String  search,
+			@RequestParam(value = "status", defaultValue = "0")  int  status
+			) {
 		
 		List<UserResponse> userResponses = new ArrayList<>();
-		List<UserDto> users =userService.getUsers(page , limit);
+		List<UserDto> users =userService.getUsers(page , limit , search , status);
 		
 		for (UserDto userDto : users) {
-			UserResponse user = new UserResponse();
-			BeanUtils.copyProperties(userDto, user);
+			ModelMapper modelMapper = new ModelMapper();
+			UserResponse user = modelMapper.map(userDto, UserResponse.class);
+			/*
+			 * UserResponse user = new UserResponse(); BeanUtils.copyProperties(userDto,
+			 * user);
+			 */
 			userResponses.add(user);
 		}
 		

@@ -18,6 +18,6 @@ public interface UserService extends UserDetailsService {
 
 	void DeleteUser(String id);
 
-	List<UserDto> getUsers(int page, int limit);
+	List<UserDto> getUsers(int page, int limit , String search , int status);
 
 }
