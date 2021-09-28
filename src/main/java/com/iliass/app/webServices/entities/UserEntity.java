@@ -37,8 +37,10 @@ public class UserEntity implements Serializable {
 	@Column(nullable = false ,length = 50)
 	private String lastName;
 	
-	@Column(unique = true,  nullable = false ,length = 120)
+	@Column(nullable = true)
+	private Boolean admin = false;
 	
+	@Column(unique = true,  nullable = false ,length = 120)
 	private String email;
 	
 	@Column(nullable = false )
@@ -50,9 +52,17 @@ public class UserEntity implements Serializable {
 	@Column(nullable = false)
 	private Boolean emailVerificationStatus = false;
 	
-	@OneToMany(mappedBy = "userEtity" ,cascade = CascadeType.ALL)
-	private List<AdressesEntity> adresses ;
+	@OneToMany(mappedBy="user", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
+	private List<AdressesEntity> addresses ;
 	
+	public Set<GroupEntity> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(Set<GroupEntity> groups) {
+		this.groups = groups;
+	}
+
 	@OneToOne(mappedBy="user", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
 	private ContactEntity contact ;
 	
@@ -123,12 +133,14 @@ public class UserEntity implements Serializable {
 		this.emailVerificationStatus = emailVerificationStatus;
 	}
 
-	public List<AdressesEntity> getAdresses() {
-		return adresses;
+	
+
+	public List<AdressesEntity> getAddresses() {
+		return addresses;
 	}
 
-	public void setAdresses(List<AdressesEntity> adresses) {
-		this.adresses = adresses;
+	public void setAddresses(List<AdressesEntity> addresses) {
+		this.addresses = addresses;
 	}
 
 	public ContactEntity getContact() {
@@ -137,6 +149,14 @@ public class UserEntity implements Serializable {
 
 	public void setContact(ContactEntity contact) {
 		this.contact = contact;
+	}
+
+	public Boolean getAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
 	}
 
 	

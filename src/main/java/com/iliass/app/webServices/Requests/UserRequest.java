@@ -7,8 +7,9 @@ public class UserRequest {
 	private String firstName;
 	private String lastName;
 	private String email;
+	private Boolean admin;
 	private String password;
-	private List <AdresseRequest> adresses ;
+	private List <AdresseRequest> addresses ;
 	private ContactRequest contact;
 	
 	
@@ -36,17 +37,24 @@ public class UserRequest {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public List<AdresseRequest> getAdresses() {
-		return adresses;
+	
+	public List<AdresseRequest> getAddresses() {
+		return addresses;
 	}
-	public void setAdresses(List<AdresseRequest> adresses) {
-		this.adresses = adresses;
+	public void setAddresses(List<AdresseRequest> addresses) {
+		this.addresses = addresses;
 	}
 	public ContactRequest getContact() {
 		return contact;
 	}
 	public void setContact(ContactRequest contact) {
 		this.contact = contact;
+	}
+	public Boolean getAdmin() {
+		return admin;
+	}
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
 	}
 	
 	

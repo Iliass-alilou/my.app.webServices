@@ -48,10 +48,11 @@ public class UserController {
 		BeanUtils.copyProperties(userDto, userResponse);
 		return  new ResponseEntity<UserResponse>(userResponse,HttpStatus.OK);
 	}
+	
 //	@CrossOrigin(origins = "*")
 	@CrossOrigin(origins = {"http://localhost:3000" , "http://localhost:4200"})
 	@GetMapping(produces = {MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE})
-	public List<UserResponse> getAllUsers (
+	public ResponseEntity<List<UserResponse>> getAllUsers (
 			@RequestParam(value = "page" , defaultValue = "1") int page ,
 			@RequestParam(value = "limit", defaultValue = "15")  int limit,
 			@RequestParam(value = "search", defaultValue = "")  String  search,
@@ -71,7 +72,7 @@ public class UserController {
 			userResponses.add(user);
 		}
 		
-		return userResponses;
+		return new ResponseEntity<List<UserResponse>>(userResponses,HttpStatus.OK);
 	}
  
 	@PostMapping(

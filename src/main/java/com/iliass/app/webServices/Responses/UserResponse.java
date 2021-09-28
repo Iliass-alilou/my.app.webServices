@@ -10,7 +10,8 @@ public class UserResponse {
 	private String firstName;
 	private String lastName;
 	private String email;
-	private List<AdresseRequest> adresses;
+	private Boolean admin;
+	private List<AdresseRequest> addresses;
 	private ContactResponse contact;
 	
 	
@@ -38,17 +39,24 @@ public class UserResponse {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public List<AdresseRequest> getAdresses() {
-		return adresses;
+	
+	public List<AdresseRequest> getAddresses() {
+		return addresses;
 	}
-	public void setAdresses(List<AdresseRequest> adresses) {
-		this.adresses = adresses;
+	public void setAddresses(List<AdresseRequest> addresses) {
+		this.addresses = addresses;
 	}
 	public ContactResponse getContact() {
 		return contact;
 	}
 	public void setContact(ContactResponse contact) {
 		this.contact = contact;
+	}
+	public Boolean getAdmin() {
+		return admin;
+	}
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
 	}
 	
 	

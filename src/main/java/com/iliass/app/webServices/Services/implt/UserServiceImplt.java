@@ -42,12 +42,12 @@ public class UserServiceImplt implements UserService {
 		if (checkExisting_User != null)
 			throw new RuntimeException("user already exist !");
 
-		for (int i = 0; i < userDto.getAdresses().size(); i++) {
+		for (int i = 0; i < userDto.getAddresses().size(); i++) {
 
-			AdresseDto address = userDto.getAdresses().get(i);
-			address.setUserDto(userDto);
-			address.setAdesseId(util.generatedValue(30));
-			userDto.getAdresses().set(i, address);
+			AdresseDto address = userDto.getAddresses().get(i);
+			address.setUser(userDto);
+			address.setAddressId(util.generatedValue(30));
+			userDto.getAddresses().set(i, address);
 		}
 		
 		userDto.getContact().setUser(userDto);

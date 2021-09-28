@@ -2,6 +2,7 @@ package com.iliass.app.webServices.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,7 +23,7 @@ public class AdressesEntity implements Serializable {
 	private long id ;
 	
 	@Column(length = 30,nullable = false)
-	private String adresseId;
+	private String addressId;
 	
 	@Column(length = 30,nullable = false)
 	private String city;
@@ -40,8 +41,8 @@ public class AdressesEntity implements Serializable {
 	private String type;
 	
 	@ManyToOne
-	@JoinColumn(name = "users_id")
-	private UserEntity userEtity;
+	@JoinColumn(name="users_id")
+	private UserEntity user;
 
 	public long getId() {
 		return id;
@@ -51,12 +52,14 @@ public class AdressesEntity implements Serializable {
 		this.id = id;
 	}
 
-	public String getAdresseId() {
-		return adresseId;
+	
+
+	public String getAddressId() {
+		return addressId;
 	}
 
-	public void setAdresseId(String adresseId) {
-		this.adresseId = adresseId;
+	public void setAddressId(String addressId) {
+		this.addressId = addressId;
 	}
 
 	public String getCity() {
@@ -99,15 +102,15 @@ public class AdressesEntity implements Serializable {
 		this.type = type;
 	}
 
-	public UserEntity getUserEtity() {
-		return userEtity;
+	public UserEntity getUser() {
+		return user;
 	}
 
-	public void setUserEtity(UserEntity userEtity) {
-		this.userEtity = userEtity;
+	public void setUser(UserEntity user) {
+		this.user = user;
 	}
-
 
 	
+
 	
 }

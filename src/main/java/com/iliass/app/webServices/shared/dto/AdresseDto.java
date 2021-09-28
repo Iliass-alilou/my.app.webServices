@@ -3,13 +3,13 @@ package com.iliass.app.webServices.shared.dto;
 public class AdresseDto {
 
 	private long id ;
-	private String adesseId;
+	private String addressId;
 	private String city;
 	private String country;
 	private String street;
 	private String postal;
 	private String type;
-	private UserDto userDto;
+	private UserDto user;
 	
 
 	
@@ -19,11 +19,14 @@ public class AdresseDto {
 	public void setId(long id) {
 		this.id = id;
 	}
-	public String getAdesseId() {
-		return adesseId;
+	
+	
+	
+	public String getAddressId() {
+		return addressId;
 	}
-	public void setAdesseId(String adesseId) {
-		this.adesseId = adesseId;
+	public void setAddressId(String addressId) {
+		this.addressId = addressId;
 	}
 	public String getCity() {
 		return city;
@@ -55,12 +58,11 @@ public class AdresseDto {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public UserDto getUserDto() {
-		return userDto;
+	public UserDto getUser() {
+		return user;
 	}
-	public void setUserDto(UserDto userDto) {
-		this.userDto = userDto;
+	public void setUser(UserDto user) {
+		this.user = user;
 	}
-	
 	
 }

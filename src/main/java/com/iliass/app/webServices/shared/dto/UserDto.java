@@ -17,11 +17,12 @@ public class UserDto implements Serializable {
 	private String firstName;
 	private String lastName;
 	private String email;
+	private Boolean admin;
 	private String password;
 	private String ecryptyPassword;
 	private String emailVerificationToken;
 	private Boolean emailVerificationStatus = false ;
-	private List<AdresseDto> adresses ;
+	private List<AdresseDto> addresses ;
 	private ContactDto contact;
 	
 	
@@ -85,11 +86,18 @@ public class UserDto implements Serializable {
 	public void setEmailVerificationStatus(Boolean emailVerificationStatus) {
 		this.emailVerificationStatus = emailVerificationStatus;
 	}
-	public List<AdresseDto> getAdresses() {
-		return adresses;
+	
+	public List<AdresseDto> getAddresses() {
+		return addresses;
 	}
-	public void setAdresses(List<AdresseDto> adresses) {
-		this.adresses = adresses;
+	public void setAddresses(List<AdresseDto> addresses) {
+		this.addresses = addresses;
+	}
+	public Boolean getAdmin() {
+		return admin;
+	}
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
 	}
 	
 	

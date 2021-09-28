@@ -1,18 +1,22 @@
-package com.iliass.app.webServices.Requests;
+package com.iliass.app.webServices.Responses;
 
-public class AdresseRequeste {
+public class AddressResponse {
 
-	private String adesseId;
+	private String addressId;
 	private String city;
 	private String country;
 	private String street;
 	private String postal;
 	private String type;
-	public String getAdesseId() {
-		return adesseId;
+	
+	
+	
+	
+	public String getAddressId() {
+		return addressId;
 	}
-	public void setAdesseId(String adesseId) {
-		this.adesseId = adesseId;
+	public void setAddressId(String addressId) {
+		this.addressId = addressId;
 	}
 	public String getCity() {
 		return city;
@@ -44,7 +48,6 @@ public class AdresseRequeste {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
 	
 	
 }
